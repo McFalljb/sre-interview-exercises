@@ -1,0 +1,9 @@
+# CI overlay: in CI, Redis takes a few seconds to come up, like it does when it
+# has a real dataset to load. Layer it on top of compose.yaml (see README).
+services:
+  redis:
+    entrypoint:
+      - sh
+      - -c
+      - '[ $$# -gt 0 ] || set -- redis-server; sleep 5; exec docker-entrypoint.sh "$$@"'
+      - redis
